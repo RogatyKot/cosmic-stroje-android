@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ConvertedLevel",
+    "playerStart": {
+      "x": 150,
+      "y": 300
+    },
+    "platforms": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 500
+        },
+        "size": {
+          "x": 800,
+          "y": 100
+        }
+      }
+    ],
+    "enemies": [],
+    "collectibles": [],
+    "goalPos": {
+      "x": 700,
+      "y": 300
+    }
+  }
+]

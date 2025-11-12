@@ -1,0 +1,23 @@
+name: Build Godot Android APK
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot (headless)
+        run: |
+          sudo snap install godot --classic || true
+      - name: Export APK
+        env:
+          GODOT_BIN: godot
+        run: |
+          $GODOT_BIN --version
+          $GODOT_BIN --export "Android (Unsigned)" build/ComsmocStroje-unsigned.apk
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ComsmocStroje-apk
+          path: build/ComsmocStroje-unsigned.apk

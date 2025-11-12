@@ -1,0 +1,10 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="HealthHUD" type="Control"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture = ExtResource( 1 )
+
+[ext_resource path="res://assets/ui/hearts_atlas.png" type="Texture2D" id=1]
