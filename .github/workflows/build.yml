@@ -1,0 +1,27 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Export APK
+        uses: firebelley/godot-export@v4
+        with:
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/3.5.3/mono/Godot_v3.5.3-stable_mono_linux_headless_64.zip
+          export_preset: "Android"
+          output_path: build/android/cosmic-stroje.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cosmic-stroje-android
+          path: build/android/cosmic-stroje.apk
