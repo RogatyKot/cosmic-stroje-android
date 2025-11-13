@@ -24,7 +24,7 @@ jobs:
       run: |
         wget https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_export_templates.tpz -O templates.tpz
         mkdir -p ~/.local/share/godot/templates/3.5.3.stable
-        tar -xvf templates.tpz -C ~/.local/share/godot/templates/3.5.3.stable
+        unzip templates.tpz -d ~/.local/share/godot/templates/3.5.3.stable
 
     - name: Export Android APK
       run: |
