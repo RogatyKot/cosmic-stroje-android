@@ -15,27 +15,27 @@ jobs:
 
     - name: Download Godot Headless
       run: |
-        wget https://downloads.tuxfamily.org/godotengine/3.5.3/Godot_v3.5.3-stable_linux_headless.64.zip -O godot.zip || \
         wget https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_linux_headless.64.zip -O godot.zip
         unzip -o godot.zip -d godot
         chmod +x godot/Godot_v3.5.3-stable_linux_headless.64
 
     - name: Install Export Templates
       run: |
-        wget https://downloads.tuxfamily.org/godotengine/3.5.3/Godot_v3.5.3-stable_export_templates.tpz -O templates.tpz || \
         wget https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_export_templates.tpz -O templates.tpz
         mkdir -p ~/.local/share/godot/templates/3.5.3.stable
         unzip -o templates.tpz -d ~/.local/share/godot/templates/3.5.3.stable
 
-    - name: Create export_presets.cfg
+    - name: Ensure export presets exist
       run: |
-        cat > export_presets.cfg <<EOP
+        if [ ! -f export_presets.cfg ]; then
+          cat > export_presets.cfg <<EOP
 [preset.0]
 name="Android"
 platform="Android"
-runnable=true
 export_path="build/cosmic-stroje.apk"
+runnable=true
 EOP
+        fi
 
     - name: Export Android APK
       run: |
