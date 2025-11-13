@@ -1,23 +1,31 @@
-name: Build Godot Android APK
+name: Build Android APK
+
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+
 jobs:
-  build-apk:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Godot (headless)
-        run: |
-          sudo snap install godot --classic || true
-      - name: Export APK
-        env:
-          GODOT_BIN: godot
-        run: |
-          $GODOT_BIN --version
-          $GODOT_BIN --export "Android (Unsigned)" build/ComsmocStroje-unsigned.apk
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ComsmocStroje-apk
-          path: build/ComsmocStroje-unsigned.apk
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Godot
+      uses: firebelley/godot-export@v5
+      with:
+        godot-version: 4.3
+        export-preset: "Android"
+        use-godot-mono: false
+
+    - name: Build Android APK
+      run: |
+        mkdir -p build/android
+        godot --headless --export-release "Android" build/android/Cosmic-Stroje.apk
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Cosmic-Stroje-Android
+        path: build/android/Cosmic-Stroje.apk
