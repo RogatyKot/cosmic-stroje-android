@@ -28,11 +28,8 @@ jobs:
 
     - name: Export Android APK
       run: |
-        ./godot/Godot_v3.5.3-stable_linux_headless.64 --export "Android" build/game.apk
-      env:
-        GODOT_ANDROID_KEYSTORE: ${{ secrets.GODOT_ANDROID_KEYSTORE }}
-        GODOT_ANDROID_KEYSTORE_USER: ${{ secrets.GODOT_ANDROID_KEYSTORE_USER }}
-        GODOT_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.GODOT_ANDROID_KEYSTORE_PASSWORD }}
+        mkdir -p build
+        ./godot/Godot_v3.5.3-stable_linux_headless.64 --path . --export "Android" build/game.apk
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
