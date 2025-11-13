@@ -14,18 +14,25 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Download Godot
+    - name: Download Godot Headless
       run: |
-        wget https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_mono_linux_headless_64.zip -O godot.zip
+        wget https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_linux_headless.64.zip -O godot.zip
         unzip godot.zip -d godot
-        chmod +x godot/Godot_v3.5.3-stable_mono_linux_headless.64
+        chmod +x godot/Godot_v3.5.3-stable_linux_headless.64
+
+    - name: Install Godot Export Templates
+      run: |
+        wget https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_export_templates.tpz -O templates.tpz
+        mkdir -p ~/.local/share/godot/templates/3.5.3.stable
+        tar -xvf templates.tpz -C ~/.local/share/godot/templates/3.5.3.stable
 
     - name: Export Android APK
-      uses: firebelley/godot-export@v4
-      with:
-        godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_mono_linux_headless_64.zip
-        export_preset: "Android"
-        output_path: build/game.apk
+      run: |
+        ./godot/Godot_v3.5.3-stable_linux_headless.64 --export "Android" build/game.apk
+      env:
+        GODOT_ANDROID_KEYSTORE: ${{ secrets.GODOT_ANDROID_KEYSTORE }}
+        GODOT_ANDROID_KEYSTORE_USER: ${{ secrets.GODOT_ANDROID_KEYSTORE_USER }}
+        GODOT_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.GODOT_ANDROID_KEYSTORE_PASSWORD }}
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
